@@ -113,7 +113,10 @@ jobs:
         cd ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
         git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-
+    - name: Patch vendorsetup.sh
+      run: |
+        sed -i 's/if \[ -z "\$THIS_DEVICE" \]; then/if false; then/' device/tecno/TECNO-LI7/vendorsetup.sh
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
